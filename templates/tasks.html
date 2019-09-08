@@ -1,0 +1,42 @@
+{% extends 'base.html'%} {% block content %}
+<div class="row">
+    <ul class="collapsible" data-collapsible="accordion">
+        {% for task in tasks %} {% if task.task_complete!=True %}
+        <li>
+            <div class="collapsible-header">
+                <div class="col s5">
+                    <i class="material-icons">expand_more</i>
+                    <a href="{{url_for('delete_task', task_id=task._id)}}" class="waves-effect waves-light btn btn_small red">Del</a>
+                    <a href="{{url_for('mark_task_as_completed', task_id=task._id)}}" class="waves-effect waves-light btn btn_small">Done</a>
+                    <a href="{{url_for('edit_task', task_id=task._id)}}" class="waves-effect waves-light btn btn_small blue">Edit</a>
+                </div>
+                <div class="col s7 task_header">
+                    <strong>{{task.task_name}}</strong> - {{task.due_date}}
+                </div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                    {{task.task_description}}
+                </span>
+            </div>
+        </li>
+        {% elif task.task_complete==True %}
+        <li>
+            <div class="collapsible-header">
+                <div class="col s5">
+                    <i class="material-icons">expand_more</i>
+                    <a href="{{url_for('delete_task', task_id=task._id)}}" class="waves-effect waves-light btn btn_small red">Del</a>
+                    <a href="{{url_for('mark_task_as_uncompleted', task_id=task._id)}}" class="waves-effect waves-light btn btn_small">Renew</a>
+                </div>
+                <div class="col s7 task_header completed_task">
+                    {{task.task_name}} - {{task.due_date}}
+                </div>
+            </div>
+        </li>
+        {% endif %} {% endfor %}
+    </ul>
+</div>
+<div class="col s12">
+    <a href="{{url_for('add_task')}}" class="waves-effect waves-light btn"><i class="material-icons right">playlist_add</i>Add Task</a>
+</div>
+{% endblock %}
